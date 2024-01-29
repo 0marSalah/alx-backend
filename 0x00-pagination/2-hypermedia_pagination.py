@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-#!/usr/bin/python3
 import csv
 import math
 from typing import List, Tuple
@@ -25,10 +24,28 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """ return the appropriate page of the dataset """
         start, end = index_range(page, page_size)
         assert type(page) is int and type(
             page_size) is int and page > 0 and page_size > 0
         return self.dataset()[start:end]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+        """ return the appropriate page of the dataset """
+        data = self.get_page(page, page_size)
+        page_length = len(data) / page_size
+        next_page = page + 1 if page <= page_length else None
+        prev_page = page - 1 if page > 1 else None
+        total_pages = math.ceil(len(self.dataset()) / page_size)
+
+        return {
+            'page_size': page_size,
+            'page': page,
+            'data': data,
+            'next_page': next_page,
+            'prev_page': prev_page,
+            'total_pages': total_pages
+        }
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
