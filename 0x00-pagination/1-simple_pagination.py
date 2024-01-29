@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" index range pagination """
 import csv
 import math
 from typing import List, Tuple
