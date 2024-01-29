@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
 class Server:
@@ -33,7 +33,7 @@ class Server:
             return []
         return self.dataset()[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """ return the appropriate page of the dataset """
         data = self.get_page(page, page_size)
         page_length = len(data) / page_size
