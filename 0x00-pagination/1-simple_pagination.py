@@ -26,9 +26,9 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """ return the appropriate page of the dataset """
-        start, end = index_range(page, page_size)
         assert type(page) is int and type(
             page_size) is int and page > 0 and page_size > 0
+        start, end = index_range(page, page_size)
         if start >= len(self.dataset()):
             return []
         return self.dataset()[start:end]
