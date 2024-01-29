@@ -40,4 +40,26 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        return {}
+        """ implement pagination that remains resilient to deletions in the dataset 
+        """
+        data = self.indexed_dataset()
+        assert index is not None and index >= 0 and index <= max(data.keys())
+
+        next_index = index + page_size
+        result_data: List[List] = []
+        data_count = 0
+        start = index if index else None
+        for i, item in data.items():
+            if i >= start and data_count < page_size:
+                result_data.append(item)
+                data_count += 1
+                continue
+            if data_count == page_size:
+                next_index = i
+                break
+        return {
+            'index': index,
+            'next_index': next_index,
+            'page_size': page_size,
+            'data': result_data,
+        }
