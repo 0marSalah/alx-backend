@@ -5,6 +5,13 @@ import math
 from typing import List, Tuple, TypedDict
 
 
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """ return a tuple of size two containing a start index and an end index
+    corresponding to the range of indexes to return in a list for those
+    particular pagination parameters """
+    return ((page - 1) * page_size, page * page_size)
+
+
 class Server:
     """Server class to paginate a database of popular baby names.
     """
@@ -25,17 +32,12 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """ return the appropriate page of the dataset """
-        assert type(page) is int and type(
-            page_size) is int and page > 0 and page_size > 0
+        """Retrieves a page of data.
+        """
+        assert type(page) == int and type(page_size) == int
+        assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
-        if start >= len(self.dataset()):
+        data = self.dataset()
+        if start > len(data):
             return []
-        return self.dataset()[start:end]
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """ return a tuple of size two containing a start index and an end index
-    corresponding to the range of indexes to return in a list for those
-    particular pagination parameters """
-    return ((page - 1) * page_size, page * page_size)
+        return data[start:end]
