@@ -44,9 +44,10 @@ class Server:
         """ return the appropriate page of the dataset """
         data = self.get_page(page, page_size)
         page_length = len(data)
-        next_page = page + 1 if page <= page_length else None
-        prev_page = page - 1 if page > 1 else None
-        total_pages = math.ceil(len(self.dataset()) / page_size)
+        start, end = index_range(page, page_size)
+        next_page = page + 1 if end <= len(self.__dataset()) else None
+        prev_page = page - 1 if start > 1 else None
+        total_pages = math.ceil(len(self.__dataset()) / page_size)
 
         return {
             'page_size': page_length,
